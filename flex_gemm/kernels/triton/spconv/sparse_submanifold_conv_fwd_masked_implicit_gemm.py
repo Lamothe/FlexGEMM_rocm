@@ -84,7 +84,7 @@ def sparse_submanifold_conv_fwd_masked_implicit_gemm_kernel(
         weight_block = tl.load(weight_ptr, mask=k_mask[:, None], other=0.0)
         # Accumulate along the K dimension.
         accumulator = tl.dot(input_block, weight_block, accumulator,
-                             input_precision='tf32' if allow_tf32 else 'ieee')                      # (B1, B2)
+                             input_precision='ieee')                      # (B1, B2)
     c = accumulator.to(input.type.element_ty)
             
     # add bias

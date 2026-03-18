@@ -90,7 +90,7 @@ def sparse_submanifold_conv_bwd_input_masked_implicit_gemm_splitk_kernel(
         weight_block = tl.load(weight_ptr, mask=k_mask[:, None], other=0.0)
         # Accumulate along the K dimension.
         accumulator = tl.dot(grad_output_block, weight_block, accumulator,
-                             input_precision='tf32' if allow_tf32 else 'ieee')                              # (B1, B2)
+                             input_precision='ieee')                              # (B1, B2)
                 
     # Write back the block of the output matrix with masks.
     grad_input_offset_n = offset_sorted_n
@@ -169,7 +169,7 @@ def sparse_submanifold_conv_bwd_weight_masked_implicit_gemm_splitk_kernel(
         grad_output_block = tl.load(grad_output_ptr, mask=mask[None, :], other=0.0)
         # Accumulate along the K dimension.
         accumulator = tl.dot(grad_output_block, input_block, accumulator,
-                             input_precision='tf32' if allow_tf32 else 'ieee')                      # (B1, B2)
+                             input_precision='ieee')                      # (B1, B2)
         # Advance pointers.
         valid_signal_i_ptr += BK
         valid_signal_o_ptr += BK

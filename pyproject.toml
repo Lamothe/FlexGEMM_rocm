@@ -9,13 +9,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "flex_gemm"
-version = "1.0.0"
-description = "A Cross-Platform Backend for High-Performance Sparse Convolutions"
+version = "1.0.0+rocm"
+description = "A Cross-Platform Backend for High-Performance Sparse Convolutions (ROCm)"
 requires-python = ">=3.8"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
-    { name = "Jianfeng Xiang", email = "belljig@outlook.com" }
+    { name = "Jianfeng Xiang", email = "belljig@outlook.com" },
+    { name = "Michael Lamothe", email = "michael.lamothe@gmail.com" }
 ]
 dependencies = [
     "torch>=2.4.0",
