@@ -47,7 +47,8 @@ def indice_weighed_sum_fwd_kernel(
     for v in range(V):
         # Calculate pointers
         neigh_idx = tl.load(indices + offset_m * V + v)                         # (BM,)
-        input_ptr = input + (neigh_idx[:, None] * C + offset_k[None, :])        # (BM, BK)
+        safe_idx = tl.where(neigh_idx != 0xffffffff, neigh_idx, 0)
+        input_ptr = input + (safe_idx[:, None] * C + offset_k[None, :])        # (BM, BK)
         weight_ptr = weight + offset_m * V + v                                          # (BM,)
         # Load the next block of input and weight.
         neigh_mask = neigh_idx != 0xffffffff

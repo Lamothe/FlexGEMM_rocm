@@ -56,8 +56,8 @@ def indice_weighed_sum_bwd_input_kernel(
     valid_mask = neigh_idx != 0xffffffff
     contrib = go_block * w_block[:, None]                                       # (BM, BK)
 
-    # Scatter-add contributions to grad_input using atomic add
-    gi_ptr = grad_input + (neigh_idx[:, None] * C + offset_k[None, :])
+    safe_idx = tl.where(neigh_idx != 0xffffffff, neigh_idx, 0)
+    gi_ptr = grad_input + (safe_idx[:, None] * C + offset_k[None, :])
     tl.atomic_add(gi_ptr, contrib, mask=valid_mask[:, None] & (offset_k[None, :] < C), sem="relaxed")
 
 
